@@ -62,7 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <option value="realizando" <?= $activity['status'] === 'realizando' ? 'selected' : '' ?>>In Progress</option>
                                     <option value="finalizado" <?= $activity['status'] === 'finalizado' ? 'selected' : '' ?>>Completed</option>
                                 </select>
-                                <button class="save-btn px-4 py-2 bg-green-500 text-white font-semibold rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Save</button>
+                                <div class="flex space-x-2 mt-2">
+                                    <button class="save-btn px-4 py-2 bg-green-500 text-white font-semibold rounded-md shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">Save</button>
+                                    <button class="cancel-btn px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">Cancel</button>
+                                </div>
                             </div>
                         </li>
                     <?php endforeach; ?>

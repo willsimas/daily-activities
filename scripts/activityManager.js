@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const editButtons = document.querySelectorAll('.edit-btn');
     const saveButtons = document.querySelectorAll('.save-btn');
+    const cancelButtons = document.querySelectorAll('.cancel-btn');
 
     // Função para alternar entre visualização e edição
     const toggleEditMode = (li) => {
@@ -56,6 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // Adicionar event listeners para o botão de cancelar
+    cancelButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const li = this.closest('li');
+            toggleEditMode(li);
+        });
+    });
+
     // Adicionar event listener para o click fora do combo select para salvar
     document.addEventListener('click', (event) => {
         const openDropdown = document.querySelector('.status-dropdown:not(.hidden)');
@@ -70,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
 
 
 

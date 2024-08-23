@@ -1,7 +1,7 @@
 <?php
 
 // deleteActivity.php
-require 'includes/ActivityHandler.php';
+require '../includes/ActivityHandler.php';
 
 $activityHandler = new ActivityHandler('activities/activities.txt');
 $data = json_decode(file_get_contents('php://input'), true);

@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php if ($activities): ?>
                 <ul class="space-y-4">
                     <?php foreach ($activities as $index => $activity): ?>
-                        <li class="p-4 bg-white border border-gray-200 rounded-md shadow-sm flex flex-col space-y-2">
+                        <li class="p-4 bg-white border border-gray-200 rounded-md shadow-sm flex flex-col space-y-2 relative">
                             <div class="font-semibold text-lg"><?= htmlspecialchars($activity['name']) ?></div>
                             <div class="text-sm text-gray-600">Status: <span class="font-medium text-blue-600"><?= htmlspecialchars($activity['status']) ?></span></div>
                             <div class="text-sm text-gray-600">Created at: <?= htmlspecialchars($activity['created_at']) ?></div>
@@ -51,6 +51,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <button class="edit-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-index="<?= $index ?>">Edit</button>
                                 <button class="delete-btn px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" data-index="<?= $index ?>">Delete</button>
                             </div>
+                            <div class="status-dropdown hidden absolute top-12 left-0 bg-white border border-gray-300 rounded-md shadow-lg p-2">
+                                <select class="status-select px-3 py-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                    <option value="aberto">Open</option>
+                                    <option value="realizando">In Progress</option>
+                                    <option value="finalizado">Completed</option>
+                                </select>
+                            </div>
                         </li>
                     <?php endforeach; ?>
                 </ul>
@@ -58,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <p class="text-center text-gray-500">No activities found.</p>
             <?php endif; ?>
         </section>
+
 
     </main>
     <script src="scripts/activityManager.js"></script>

@@ -21,19 +21,47 @@ class ActivityHandler {
 
     public function addActivity($activity) {
         $activities = $this->getActivities();
-        $activities[] = $activity->toArray();
+
+        // Verificar se $activity é um array ou um objeto
+        if (is_object($activity) && method_exists($activity, 'toArray')) {
+            $activity = $activity->toArray();
+        }
+        
+        // Gerar um ID único para a nova atividade
+        $activity['id'] = uniqid();
+        
+        $activities[] = $activity;
         $this->saveActivities($activities);
     }
 
-    public function updateActivity($index, $updatedActivity) {
+    public function updateActivity($id, $updatedActivity) {
         $activities = $this->getActivities();
-        $activities[$index] = $updatedActivity;
+
+        // Verificar se $updatedActivity é um array ou um objeto
+        if (is_object($updatedActivity) && method_exists($updatedActivity, 'toArray')) {
+            $updatedActivity = $updatedActivity->toArray();
+        }
+        
+        // Procurar a atividade pelo ID e atualizá-la
+        foreach ($activities as &$activity) {
+            if ($activity['id'] === $id) {
+                $activity = $updatedActivity;
+                $activity['id'] = $id; // Manter o mesmo ID
+                break;
+            }
+        }
+        
         $this->saveActivities($activities);
     }
 
-    public function deleteActivity($index) {
+    public function deleteActivity($id) {
         $activities = $this->getActivities();
-        array_splice($activities, $index, 1);
-        $this->saveActivities($activities);
+        
+        // Filtrar e remover a atividade com o ID correspondente
+        $activities = array_filter($activities, function($activity) use ($id) {
+            return $activity['id'] !== $id;
+        });
+        
+        $this->saveActivities(array_values($activities)); // Reindexar o array
     }
 }

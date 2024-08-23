@@ -1,48 +1,38 @@
 <?php
-// delete_activity.php
-include_once '../includes/ActivityHandler.php'; // Ajuste o caminho conforme necessário
-// include_once '../session/session.php';
+header('Content-Type: application/json');
 
-// if (!isLoggedIn()) {
-//     header('HTTP/1.1 403 Forbidden');
-//     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
-//     exit;
-// }
-
+// Verifique se a solicitação é POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $index = isset($_POST['index']) ? intval($_POST['index']) : -1;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id = $data['id'] ?? null;
 
-    if ($index < 0) {
-        echo json_encode(['success' => false, 'message' => 'Invalid index']);
-        exit;
+    if ($id !== null) {
+        $filePath = '../activities/activities.txt'; // Ajuste o caminho conforme necessário
+
+        if (file_exists($filePath)) {
+            $activities = json_decode(file_get_contents($filePath), true);
+
+            if (is_array($activities)) {
+                $initialCount = count($activities);
+
+                // Filtrar e remover a atividade com o ID correspondente
+                $activities = array_filter($activities, function($activity) use ($id) {
+                    return $activity['id'] !== $id;
+                });
+
+                $activities = array_values($activities); // Reindexar o array
+
+                if (count($activities) < $initialCount) {
+                    // Salvar as alterações de volta no arquivo
+                    file_put_contents($filePath, json_encode($activities, JSON_PRETTY_PRINT));
+                    echo json_encode(['success' => true]);
+                    exit;
+                }
+            }
+        }
     }
 
-    $result = deleteActivity($index);
-
-    if ($result) {
-        echo json_encode(['success' => true]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete activity']);
-    }
-
-    exit;
+    echo json_encode(['success' => false, 'message' => 'Invalid ID or activity not found']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
 }
-
-function deleteActivity($index) {
-    $filename = '../activities/activities.txt'; // Ajuste o caminho conforme necessário
-
-    if (!file_exists($filename)) {
-        return false;
-    }
-
-    $activities = json_decode(file_get_contents($filename), true);
-
-    if (isset($activities[$index])) {
-        array_splice($activities, $index, 1);
-        file_put_contents($filename, json_encode($activities));
-        return true;
-    }
-
-    return false;
-}
-?>

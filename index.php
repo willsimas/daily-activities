@@ -41,18 +41,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <section class="activities-list p-6 w-2/6 max-w-6xl mx-auto">
             <?php if ($activities): ?>
                 <ul class="space-y-8">
-                    <?php foreach ($activities as $index => $activity): ?>
-                        <li class="p-4 bg-white border border-gray-200 rounded-md shadow-sm flex flex-col space-y-2 relative">
+                    <?php foreach ($activities as $activity): ?>
+                        <li class="p-4 bg-white border border-gray-200 rounded-md shadow-sm flex flex-col space-y-2 relative" data-id="<?= htmlspecialchars($activity['id']) ?>">
                             <div class="activity-view flex flex-col gap-4">
-                                <div class="font-semibold text-lg activity-name"><?= htmlspecialchars($activity['name']) ?></div>
-                                <div class="text-sm text-gray-600">Status: <span class="font-medium text-blue-600 activity-status"><?= htmlspecialchars($activity['status']) ?></span></div>
-                                <div class="text-sm text-gray-600">Created at: <?= htmlspecialchars($activity['created_at']) ?></div>
-                                <?php if ($activity['completed_at']): ?>
+                                <div class="font-semibold text-lg activity-name"><?= htmlspecialchars(isset($activity['name']) ? $activity['name'] : '') ?></div>
+                                <div class="text-sm text-gray-600">Status: <span class="font-medium text-blue-600 activity-status"><?= htmlspecialchars(isset($activity['status']) ? $activity['status'] : '') ?></span></div>
+                                <div class="text-sm text-gray-600">Created at: <?= htmlspecialchars(isset($activity['created_at']) ? $activity['created_at'] : '') ?></div>
+                                <?php if (!empty($activity['completed_at'])): ?>
                                     <div class="text-sm text-gray-600">Completed at: <?= htmlspecialchars($activity['completed_at']) ?></div>
                                 <?php endif; ?>
                                 <div class="flex space-x-2 mt-">
-                                    <button class="edit-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-index="<?= $index ?>">Edit</button>
-                                    <button class="delete-btn px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" data-index="<?= $index ?>">Delete</button>
+                                    <button class="edit-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-id="<?= $activity['id'] ?>">Edit</button>
+                                    <button class="delete-btn px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" data-id="<?= $activity['id'] ?>">Delete</button>
                                 </div>
                             </div>
                             <div class="activity-edit flex flex-col gap-4 hidden">

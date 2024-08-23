@@ -8,8 +8,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
-    <header>DAILY CONTROL</header>
+<body class="bg-gray-100 font-sans">
+    <header class="text-center text-3xl font-bold text-indigo-600 my-8">
+        DAILY CONTROL</header>
     <main>
         <div>
             <form action="" class="flex flex-col space-y-4 p-4 max-w-md mx-auto bg-white shadow-md rounded-lg">

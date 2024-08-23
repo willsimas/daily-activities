@@ -36,26 +36,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm">Submit</button>
             </div>
         </form>
-        <section class="activities-list">
+        <section class="activities-list p-6 max-w-4xl mx-auto bg-gray-50 rounded-lg shadow-md">
             <?php if ($activities): ?>
-                <ul>
+                <ul class="space-y-4">
                     <?php foreach ($activities as $index => $activity): ?>
-                        <li>
-                            <div><?= htmlspecialchars($activity['name']) ?></div>
-                            <div>Status: <?= htmlspecialchars($activity['status']) ?></div>
-                            <div>Created at: <?= htmlspecialchars($activity['created_at']) ?></div>
+                        <li class="p-4 bg-white border border-gray-200 rounded-md shadow-sm flex flex-col space-y-2">
+                            <div class="font-semibold text-lg"><?= htmlspecialchars($activity['name']) ?></div>
+                            <div class="text-sm text-gray-600">Status: <span class="font-medium text-blue-600"><?= htmlspecialchars($activity['status']) ?></span></div>
+                            <div class="text-sm text-gray-600">Created at: <?= htmlspecialchars($activity['created_at']) ?></div>
                             <?php if ($activity['completed_at']): ?>
-                                <div>Completed at: <?= htmlspecialchars($activity['completed_at']) ?></div>
+                                <div class="text-sm text-gray-600">Completed at: <?= htmlspecialchars($activity['completed_at']) ?></div>
                             <?php endif; ?>
-                            <button class="edit-btn" data-index="<?= $index ?>">Edit</button>
-                            <button class="delete-btn" data-index="<?= $index ?>">Delete</button>
+                            <div class="flex space-x-2">
+                                <button class="edit-btn px-4 py-2 bg-blue-500 text-white font-semibold rounded-md shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2" data-index="<?= $index ?>">Edit</button>
+                                <button class="delete-btn px-4 py-2 bg-red-500 text-white font-semibold rounded-md shadow-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2" data-index="<?= $index ?>">Delete</button>
+                            </div>
                         </li>
                     <?php endforeach; ?>
                 </ul>
             <?php else: ?>
-                <p>No activities found.</p>
+                <p class="text-center text-gray-500">No activities found.</p>
             <?php endif; ?>
         </section>
+
     </main>
     <script src="scripts/activityManager.js"></script>
 </body>
